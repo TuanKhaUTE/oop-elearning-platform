@@ -2,20 +2,103 @@
 
 This file records substantial AI assistance used during the development of the project.
 
-## Entry 1
+## Week 1 - Analysis and Design
+
+### Entry 1 - Trần Tuấn Kha
 
 Date: 04/10/2026
 
-Purpose: Week 1 requirement analysis and planning.
+Tool / Model:
+- ChatGPT
+- GPT-5.6 Sol
 
-AI assistance:
-- Helped organize the project requirements.
-- Suggested an initial system flow.
-- Suggested an initial mapping between requirements and OOP principles.
-- Suggested test and evidence categories for discussion.
+Prompt / Task:
+- Analyze the E-Learning Platform project requirements.
+- Identify candidate classes, required OOP principles, the main system flow, and a Week 1 test plan.
 
-Human review:
-- The team checked the suggestions against the original project requirements.
-- Kha and Trang revised the system flow and class responsibilities.
-- Trang revised the preliminary class diagram.
-- The final project scope and design decisions were reviewed and agreed on by the team.
+AI Output Summary:
+- Suggested the main domain classes and Lesson hierarchy.
+- Suggested the progress flow and initial test scenarios.
+- Suggested a structure for the Week 1 report.
+
+Verification and Modification:
+- The suggestions were checked against the original project requirements.
+- The team kept the Java console and domain-core scope.
+- Web, database, and other unnecessary features were rejected because they were outside the required project scope.
+- The verified ideas were reflected in the Week 1 system flow, class diagram, and report draft.
+
+---
+
+### Entry 2 - Trần Tuấn Kha
+
+Date: 11/10/2026
+
+Tool / Model:
+- ChatGPT
+- GPT-5.6 Sol
+
+Prompt / Task:
+- Compare the supervisor feedback and assessment rubric with the Week 1 report and repository.
+- Identify missing evidence.
+
+AI Output Summary:
+- Suggested adding clearer repository evidence, syllabus mapping, individual teach-back sections, hand-drawn traces, and a more detailed AI usage log.
+
+Verification and Modification:
+- The suggestions were checked directly against the rubric and repository history.
+- The team added hand-drawn evidence and clearer evidence paths.
+- Week 2 implementation was not presented as Week 1 progress.
+
+---
+
+### Entry 3 - Mai Trần Thùy Trang
+
+Date: 04/10/2026
+
+Tool / Model:
+- ChatGPT
+- GPT-5.6 Sol
+
+Prompt / Task:
+- Analyze the E-Learning Platform requirements and suggest candidate classes.
+
+AI Output Summary:
+- Suggested candidate classes related to Course, Lesson, users, Enrollment, Progress, completion, and supporting responsibilities.
+
+Verification and Modification:
+- Trang checked each proposed class against the project requirements.
+- Classes without a clear responsibility were removed or combined.
+- The design was kept small and focused on the required project scope.
+
+---
+
+### Entry 4 - Mai Trần Thùy Trang
+
+Date: 04/10/2026
+
+Tool / Model:
+- ChatGPT
+- GPT-5.6 Sol
+
+Prompt / Task:
+- Analyze candidate classes and OOP relationships for the E-Learning Platform.
+
+AI Output Summary:
+- Suggested relationships for the Lesson hierarchy, Course-Lesson, Student-Enrollment-Course, Enrollment-Progress, and completion evidence.
+
+Verification and Modification:
+- Trang reviewed whether each relationship matched the responsibility of the classes.
+- The UML was adjusted to keep only relationships that could be clearly explained from the project requirements.
+
+---
+
+## AI Design Weakness / Rejected Suggestion
+
+One early AI suggestion was to create skeleton implementations for Student, Enrollment, and Progress while Kha was working on the Course/Lesson side.
+
+The team rejected this suggestion because it would reduce the clarity of Trang's ownership and contribution.
+
+Instead:
+- only the shared package structure and domain contract were prepared;
+- Kha implemented the Course/Lesson domain on `feature/course-lesson`;
+- Trang implemented Student/Enrollment/Progress on `feature/enrollment-progress`.
