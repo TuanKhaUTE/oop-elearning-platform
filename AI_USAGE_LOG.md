@@ -185,3 +185,31 @@ Result:
 - Failures: 0
 - Errors: 0
 - BUILD SUCCESS
+### Entry 3 - Trần Tuấn Kha
+
+Date: 14/10/2026
+
+Tool / Model:
+- ChatGPT
+- GPT-5.6 Sol
+
+Prompt / Task:
+- Review the current Week 2 implementation and tests against the assessment rubric.
+- Identify missing evidence and prepare the Week 2 integration/report structure.
+
+AI Output Summary:
+- Identified that the existing Progress tests needed clearer invariant-protection evidence.
+- Suggested verifying the two Progress invariants and adding a Lesson polymorphism test.
+- Suggested a rubric-aligned structure for the Week 2 report.
+
+Verification and Modification:
+- Kha reviewed the actual branch diff and existing tests before making changes.
+- The invariant tests were verified from Trang's branch.
+- Kha added only LessonPolymorphismTest and final Maven test-output evidence instead of adding unnecessary features.
+- The full Maven suite was rerun on Java 17 before the Week 2 report was finalized.
+
+Result:
+- Tests run: 12
+- Failures: 0
+- Errors: 0
+- BUILD SUCCESS
