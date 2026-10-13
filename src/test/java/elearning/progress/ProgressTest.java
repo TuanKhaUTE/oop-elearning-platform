@@ -5,6 +5,7 @@ import elearning.lesson.TextEvidence;
 import elearning.lesson.TextLesson;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -28,6 +29,46 @@ class ProgressTest {
         progress.updateLessonProgress(lesson, new TextEvidence(true));
 
         assertTrue(progress.isLessonCompleted(lesson));
+    }
+
+    @Test
+    void lessonOutsideCourseIsRejected() {
+        Course course = new Course("C1", "Java OOP");
+        TextLesson lessonInCourse = new TextLesson("L1", "Introduction");
+        TextLesson outsideLesson = new TextLesson("L2", "Outside");
+
+        course.addLesson(lessonInCourse);
+        Progress progress = new Progress(course);
+
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> progress.updateLessonProgress(
+                        outsideLesson,
+                        new TextEvidence(true)
+                )
+        );
+    }
+
+    @Test
+    void lockedLessonCannotBeCompleted() {
+        Course course = new Course("C1", "Java OOP");
+
+        TextLesson first = new TextLesson("L1", "Introduction");
+        TextLesson second = new TextLesson("L2", "Classes");
+        second.setPrerequisite(first);
+
+        course.addLesson(first);
+        course.addLesson(second);
+
+        Progress progress = new Progress(course);
+
+        assertThrows(
+                IllegalStateException.class,
+                () -> progress.updateLessonProgress(
+                        second,
+                        new TextEvidence(true)
+                )
+        );
     }
 
     @Test
