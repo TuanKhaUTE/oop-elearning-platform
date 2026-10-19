@@ -6,9 +6,9 @@ public class QuizLesson extends Lesson {
     public QuizLesson(String id, String title, double minimumScore) {
         super(id, title);
 
-        if (Double.isNaN(minimumScore) || minimumScore < 0 || minimumScore > 100) {
-            throw new IllegalArgumentException("Minimum score must be between 0 and 100.");
-        }
+        PercentageValidator.requireValid(
+                minimumScore,
+                "Minimum score");
 
         this.minimumScore = minimumScore;
     }

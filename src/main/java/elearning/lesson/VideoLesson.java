@@ -6,11 +6,9 @@ public class VideoLesson extends Lesson {
     public VideoLesson(String id, String title, double requiredWatchPercent) {
         super(id, title);
 
-        if (Double.isNaN(requiredWatchPercent)
-                || requiredWatchPercent < 0
-                || requiredWatchPercent > 100) {
-            throw new IllegalArgumentException("Required watch percent must be between 0 and 100.");
-        }
+        PercentageValidator.requireValid(
+                requiredWatchPercent,
+                "Required watch percent");
 
         this.requiredWatchPercent = requiredWatchPercent;
     }
