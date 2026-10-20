@@ -59,6 +59,10 @@ public class Progress {
     }
 
     public boolean isCertificateEligible() {
+        if (course.getLessons().isEmpty()) {
+            return false;
+        }
+
         for (Lesson lesson : course.getLessons()) {
             if (!completedLessons.contains(lesson)) {
                 return false;
