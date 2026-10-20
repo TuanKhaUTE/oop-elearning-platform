@@ -213,3 +213,139 @@ Result:
 - Failures: 0
 - Errors: 0
 - BUILD SUCCESS
+
+---
+## Week 3 - Features, Exceptions, Persistence and Testing
+
+### Entry 1 - Mai Trần Thùy Trang
+
+Date: 20/10/2026
+
+Tool / Model:
+
+- ChatGPT
+- Codex
+
+Prompt / Task:
+
+- Review Week 3 requirements and implement edge-case tests for Progress, prerequisites, and certificate eligibility.
+
+AI Output Summary:
+
+- Helped identify edge cases involving incomplete prerequisites, duplicate completion, invalid completion evidence, and certificate eligibility.
+- Generated `ProgressEdgeCaseTest.java` with 7 JUnit tests.
+- The tests detected a bug where an empty Course incorrectly returned `isCertificateEligible() = true`.
+
+Verification and Modification:
+
+- Trang ran the tests using IntelliJ IDEA and Maven.
+- The initial result was 6 passed and 1 failed.
+- Trang verified the bug and added an empty-course guard in `Progress.isCertificateEligible()`.
+- Tests were rerun and before/after screenshots were saved as evidence.
+
+Result:
+
+- Before Fix: 7 tests, 1 failure.
+- After Fix: 7 tests, 0 failures.
+
+---
+
+### Entry 2 - Mai Trần Thùy Trang
+
+Date: 20/10/2026
+
+Tool / Model:
+
+- ChatGPT
+- Codex
+
+Prompt / Task:
+
+- Design and implement validated restoration for Enrollment and Progress while preserving encapsulation and prerequisite rules.
+
+AI Output Summary:
+
+- Proposed `Progress.restore()` and `Enrollment.restore()` to reconstruct completion state from saved lesson IDs.
+- Suggested validating unknown or duplicate lesson IDs, missing prerequisites, and invalid completion states.
+- Generated restoration methods and corresponding JUnit tests.
+
+Verification and Modification:
+
+- Trang reviewed the design before implementation and selected a separate historical restoration mechanism instead of using fabricated `CompletionEvidence`.
+- `completedLessons` remained private, without adding a public setter.
+- Trang verified that restored lessons belong to the supplied Course and that normal completion logic remained unchanged.
+- Relevant tests and the full Maven suite were executed successfully.
+
+Result:
+
+- Added 15 `ProgressRestoreTest` tests and 3 `EnrollmentRestoreTest` tests.
+- Full Maven suite at this stage: 43 tests, 0 failures.
+
+---
+
+### Entry 3 - Mai Trần Thùy Trang
+
+Date: 20/10/2026
+
+Tool / Model:
+
+- ChatGPT
+- Codex
+
+Prompt / Task:
+
+- Implement file-based persistence for Enrollment/Progress and prepare JUnit tests for save/load, exceptions, and invalid data.
+
+AI Output Summary:
+
+- Proposed and generated `EnrollmentFileStore.java` using Java File I/O.
+- Implemented `save()` and `load()` with a UTF-8 file containing Student ID, Course ID, and completed lesson IDs.
+- Suggested validating malformed files, mismatched IDs, invalid prerequisites, and incomplete data.
+- Generated `EnrollmentFileStoreTest.java` covering 22 testing scenarios.
+
+Verification and Modification:
+
+- Trang reviewed the persistence design and kept File I/O separate from the domain classes.
+- The implementation reused `Enrollment.restore()` to validate loaded completion state.
+- Trang verified file saving and loading, exception handling, and atomic file replacement.
+- JUnit tests were run using IntelliJ's bundled Maven.
+
+Result:
+
+- `EnrollmentFileStoreTest`: 48 tests, 0 failures.
+- Full Maven suite at this stage: 91 tests, 0 failures.
+
+---
+
+### Entry 4 - Mai Trần Thùy Trang
+
+Date: 20/10/2026
+
+Tool / Model:
+
+- ChatGPT
+- Codex
+
+Prompt / Task:
+
+- Prepare and verify the persistence save/load demonstration, full test evidence, and Week 3 documentation.
+
+AI Output Summary:
+
+- Helped review and improve `EnrollmentPersistenceDemoTest.java`.
+- Suggested displaying progress before saving, saved file contents, and restored progress.
+- Assisted with organizing test evidence and documenting the Week 3 implementation.
+
+Verification and Modification:
+
+- Trang reviewed the existing demo test and decided not to create another Console Demo class because it would duplicate functionality.
+- The existing demo was updated to print the before-save state while preserving its assertions.
+- Trang ran the demo and verified that newly created Student, Course, Lesson, Enrollment, and Progress objects restored the correct state.
+- Trang reran the full Maven suite and saved the test output and screenshots.
+
+Result:
+
+- Before Save: 2/3 lessons completed, 66.67%, certificate eligibility `false`.
+- After Load: 2/3 lessons completed, 66.67%, certificate eligibility `false`.
+- Full Maven suite: 92 tests, 0 failures, 0 errors.
+- BUILD SUCCESS.
