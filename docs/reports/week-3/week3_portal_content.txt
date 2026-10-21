@@ -1,0 +1,102 @@
+WEEK 3 PROGRESS REPORT – E-LEARNING PLATFORM
+
+Repository: https://github.com/TuanKhaUTE/oop-elearning-platform
+
+1. PHÂN CÔNG CÔNG VIỆC
+- Trần Tuấn Kha – 23110028: happy-path E2E; Course/Lesson validation edge cases; refactoring duplicate percentage validation; refactoring/test evidence; updated UML integration.
+- Mai Trần Thùy Trang – 23110065: Progress edge cases; empty-course certificate bug fix; Progress/Enrollment restore; EnrollmentFileStore persistence; persistence tests/demo; Week 3 AI log.
+
+2. REMAINING FEATURES / END-TO-END
+Kha bổ sung ELearningEndToEndTest để kiểm tra toàn flow Course gồm VideoLesson, TextLesson, QuizLesson → Student enroll → prerequisite được enforce → từng subtype dùng completion rule riêng → progress = 100% → certificateEligible = true.
+Commit: https://github.com/TuanKhaUTE/oop-elearning-platform/commit/7b874634383cf3ecf2a250bbc4ac38ba1ba66b2f
+
+3. EXCEPTIONS VÀ EDGE-CASE TESTS
+Kha bổ sung LessonValidationTest cho invalid percentage (<0, >100, NaN), boundary 0/100 và Course.addLesson(null). Invalid input bị reject bằng IllegalArgumentException.
+Commit: https://github.com/TuanKhaUTE/oop-elearning-platform/commit/f79f95e0dee37a6a3397acd6e75144f6bb921f32
+
+Trang bổ sung ProgressEdgeCaseTest cho Course rỗng, failed completion/retry, locked lesson, outside lesson, duplicate completion, wrong evidence và prerequisite failure. Test phát hiện bug Course rỗng có progress 0% nhưng certificateEligible=true; Progress.isCertificateEligible() được sửa để Course rỗng trả false.
+Commits:
+https://github.com/TuanKhaUTE/oop-elearning-platform/commit/6bc7bf1ed7c86be8fa55ef670fe65cb8e19d993e
+https://github.com/TuanKhaUTE/oop-elearning-platform/commit/cb2a81a00dd37886cb0b46c46f8d531769de23ef
+
+4. PERSISTENCE VÀ VALIDATED RESTORATION
+Trang bổ sung Progress.restore(...) và Enrollment.restore(...) để khôi phục completion state từ lesson IDs mà không dùng public setter hoặc CompletionEvidence giả. Restore kiểm tra null, duplicate/unknown lesson IDs và prerequisite consistency.
+Commit: https://github.com/TuanKhaUTE/oop-elearning-platform/commit/e714a32beba623e811ea6163ee991461c88788f6
+
+EnrollmentFileStore tách File I/O khỏi domain logic. save(...) lưu Student ID, Course ID và completed lesson IDs vào UTF-8 snapshot; load(...) validate format/version/IDs/count/prerequisite rồi tạo Enrollment/Progress mới. Progress percentage và certificate eligibility được tính lại, không lưu cứng.
+Commit: https://github.com/TuanKhaUTE/oop-elearning-platform/commit/ca872022c7b888c7a6bfd444ae563c2faf8db4a9
+
+5. REFACTORING BEFORE / AFTER
+Before: cùng rule Double.isNaN(value) || value < 0 || value > 100 bị lặp trong VideoLesson, QuizLesson, VideoEvidence và QuizEvidence.
+After: Kha tạo PercentageValidator.requireValid(...) và bốn class gọi chung một source of truth.
+Reason: giảm duplicate validation, tránh rule 0..100 bị sửa không đồng nhất. LessonValidationTest được thêm trước refactor để khóa behavior; sau refactor tests vẫn pass.
+Before-test commit: https://github.com/TuanKhaUTE/oop-elearning-platform/commit/f79f95e0dee37a6a3397acd6e75144f6bb921f32
+After-refactor commit: https://github.com/TuanKhaUTE/oop-elearning-platform/commit/ce7b5c223eb18a15639735b8f272b2f1af891fe4
+Refactor evidence: https://github.com/TuanKhaUTE/oop-elearning-platform/blob/main/docs/evidence/week-3/kha/percentage_validation_refactor.txt
+Principle/quality improved: DRY + clearer SRP for numeric range validation.
+
+6. UPDATED UML / CLASS DIAGRAM
+Week 3 class diagram đã được cập nhật theo code hiện tại, gồm PercentageValidator, Progress.restore(...), Enrollment.restore(...) và EnrollmentFileStore, đồng thời giữ Lesson inheritance, CompletionEvidence interface, Course composition và Enrollment-Progress relationship.
+Editable Drive diagram: https://drive.google.com/file/d/1WiOqatM_LYxB2OcMyzvI-ZKvqGDxPgLl/view
+GitHub diagram: https://github.com/TuanKhaUTE/oop-elearning-platform/blob/main/docs/diagrams/week3_class_diagram.png
+Diagram commit: https://github.com/TuanKhaUTE/oop-elearning-platform/commit/e5d15aba45639b5b0c79aa3255e25e67daf477d4
+UML merge commit: https://github.com/TuanKhaUTE/oop-elearning-platform/commit/dd810c204837cdee22831be341c24c0d6946f3bc
+
+7. TEST RESULT
+Full Maven suite sau khi tích hợp Kha + Trang:
+- Tests run: 92
+- Failures: 0
+- Errors: 0
+- Skipped: 0
+- BUILD SUCCESS
+Trang full test evidence: https://github.com/TuanKhaUTE/oop-elearning-platform/blob/main/docs/evidence/week-3/trang/W3_Full_Maven_Test_Output.txt
+Kha test evidence: https://github.com/TuanKhaUTE/oop-elearning-platform/blob/main/docs/evidence/week-3/kha/kha_week3_test_output.txt
+
+8. PROCESS / MERGE EVIDENCE
+- Merge Kha Week 3 feature: https://github.com/TuanKhaUTE/oop-elearning-platform/commit/ce71df0ee53c24662671bcca486c5131e5f87fbb
+- Merge Kha Week 3 evidence: https://github.com/TuanKhaUTE/oop-elearning-platform/commit/b871dcd0c319d1d654e21b43ef459e3c157fac13
+- Merge Trang Week 3 feature: https://github.com/TuanKhaUTE/oop-elearning-platform/commit/77eaf4488393771d5bdfffdb7664121360fb1789
+- Merge Week 3 updated UML: https://github.com/TuanKhaUTE/oop-elearning-platform/commit/dd810c204837cdee22831be341c24c0d6946f3bc
+
+9. AI USAGE VÀ HUMAN VERIFICATION
+Kha – 19/10/2026 – ChatGPT / GPT-5.6 Sol:
+AI hỗ trợ review rubric Week 3, đề xuất E2E test, validation edge cases và nhận diện duplicate percentage validation. Kha đọc code thật, thêm tests trước, chạy Maven và chỉ refactor sau khi behavior được khóa. Kết quả phần Kha: 18 tests pass trước khi tích hợp Trang.
+
+Trang – 20/10/2026 – ChatGPT / Codex:
+AI hỗ trợ gợi ý Progress edge cases, validated restoration, file persistence và persistence tests/demo. Trang chạy tests, phát hiện empty-course certificate bug, sửa và lưu before/after evidence; giữ completedLessons private, không thêm public setter và không tạo fake CompletionEvidence; full suite đạt 92 tests.
+AI log: https://github.com/TuanKhaUTE/oop-elearning-platform/blob/main/AI_USAGE_LOG.md
+
+10. INDIVIDUAL TEACH-BACK
+Kha: trước refactor, invariant 0..100 nằm ở 4 class. Em viết LessonValidationTest trước, sau đó extract PercentageValidator. Em biết behavior không đổi vì edge-case tests và full suite vẫn pass. Refactor cải thiện DRY và làm responsibility validation rõ hơn. E2E test chứng minh Course/Lesson polymorphism, prerequisite, Progress và certificate hoạt động cùng nhau.
+
+Trang: Enrollment liên kết Student với Course; Progress quản lý completion state. Persistence cần vì memory state mất khi chương trình dừng. File chỉ lưu IDs; khi load phải map IDs sang Course hiện tại và validate prerequisite. EnrollmentFileStore được tách riêng để Progress không xử lý File I/O. Edge-case test phát hiện empty-course certificate bug và test pass sau khi sửa.
+
+11. SYLLABUS MAPPING
+- Polymorphism: Lesson.isComplete(...) override trong VideoLesson/TextLesson/QuizLesson; Progress gọi uniform.
+- Encapsulation: Progress.completedLessons private; normal update và restore đều validate trước khi tạo state.
+- Composition: Course chứa ordered List<Lesson>; Enrollment giữ Progress.
+- Exceptions: IllegalArgumentException/IllegalStateException cho invalid domain operations; IOException cho persistence/file errors.
+- SRP: EnrollmentFileStore xử lý File I/O, domain classes giữ domain responsibility.
+- Refactoring: duplicate percentage validation → PercentageValidator.
+
+12. WEEK 3 RUBRIC CHECK
+- Remaining features: ĐẠT – E2E + persistence/restore.
+- Exceptions and persistence: ĐẠT.
+- Refactoring before/after + reason: ĐẠT.
+- Edge-case tests: ĐẠT.
+- Updated UML: ĐẠT.
+- Teach-back before/after + principle improved: ĐẠT.
+- Test output: ĐẠT – 92 tests, BUILD SUCCESS.
+- AI log/verification: ĐẠT.
+
+13. REPORT / FILE LINKS
+Week 3 report: https://github.com/TuanKhaUTE/oop-elearning-platform/blob/main/docs/reports/week-3/OOP_Week3_ProgressReport_Elearning.docx
+Portal-content mirror in repo: https://github.com/TuanKhaUTE/oop-elearning-platform/blob/main/docs/reports/week-3/week3_portal_content.txt
+Repository: https://github.com/TuanKhaUTE/oop-elearning-platform
+
+14. KẾ HOẠCH WEEK 4
+- Thêm một Lesson variant mới mà không sửa existing classes để chứng minh Open/Closed/extensibility.
+- Cập nhật final UML nếu variant mới làm thay đổi diagram.
+- Hoàn thiện README/run steps, final report và complete AI log.
+- Chuẩn bị 10 defense Q&A + answers và reflection.
+- Map từng OOP principle vào class/method và luyện live modification/defense.
