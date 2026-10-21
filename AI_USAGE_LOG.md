@@ -349,3 +349,67 @@ Result:
 - After Load: 2/3 lessons completed, 66.67%, certificate eligibility `false`.
 - Full Maven suite: 92 tests, 0 failures, 0 errors.
 - BUILD SUCCESS.
+
+---
+
+### Entry 5 - Trần Tuấn Kha
+
+Date: 19/10/2026
+
+Tool / Model:
+
+- ChatGPT
+- GPT-5.6 Sol
+
+Prompt / Task:
+
+- Review the Week 3 rubric against the current implementation.
+- Identify the smallest remaining end-to-end, validation, edge-case, and refactoring work required for Kha's ownership.
+
+AI Output Summary:
+
+- Suggested one end-to-end course completion test.
+- Suggested lesson percentage-validation edge cases and null-lesson validation.
+- Identified duplicated 0..100 validation across VideoLesson, QuizLesson, VideoEvidence, and QuizEvidence as a genuine refactoring candidate.
+
+Verification and Modification:
+
+- Kha reviewed the actual source before changing code.
+- Kha added ELearningEndToEndTest and LessonValidationTest first and ran Maven successfully.
+- Refactoring was performed only after the tests locked the existing behavior.
+
+Result:
+
+- 18 tests passed before Trang's Week 3 branch was integrated.
+
+---
+
+### Entry 6 - Trần Tuấn Kha
+
+Date: 19/10/2026
+
+Tool / Model:
+
+- ChatGPT
+- GPT-5.6 Sol
+
+Prompt / Task:
+
+- Refactor duplicated percentage validation without changing external behavior and prepare before/after evidence.
+
+AI Output Summary:
+
+- Suggested extracting package-private PercentageValidator.requireValid(...).
+- Suggested keeping behavior and exception semantics unchanged.
+- Suggested storing the refactor diff and Maven output as Week 3 evidence.
+
+Verification and Modification:
+
+- Kha updated VideoLesson, QuizLesson, VideoEvidence, and QuizEvidence to call PercentageValidator.
+- Kha reran the full suite and confirmed all 18 tests still passed.
+- The refactoring and test evidence were committed separately to preserve before/after history.
+
+Result:
+
+- Refactor commit: ce7b5c2.
+- Evidence commit: f818295.
