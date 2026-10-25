@@ -131,7 +131,7 @@ Date: 11/10/2026
 Tool / Model:
 
 - ChatGPT
-- Codex
+- GPT-5.6 Sol
 
 Prompt / Task:
 
@@ -157,7 +157,7 @@ Date: 12/10/2026
 Tool / Model:
 
 - ChatGPT
-- Codex
+- GPT-5.6 Sol
 
 Prompt / Task:
 
@@ -224,7 +224,7 @@ Date: 20/10/2026
 Tool / Model:
 
 - ChatGPT
-- Codex
+- GPT-5.6 Sol
 
 Prompt / Task:
 
@@ -257,7 +257,7 @@ Date: 20/10/2026
 Tool / Model:
 
 - ChatGPT
-- Codex
+- GPT-5.6 Sol
 
 Prompt / Task:
 
@@ -290,7 +290,7 @@ Date: 20/10/2026
 Tool / Model:
 
 - ChatGPT
-- Codex
+- GPT-5.6 Sol
 
 Prompt / Task:
 
@@ -324,7 +324,7 @@ Date: 20/10/2026
 Tool / Model:
 
 - ChatGPT
-- Codex
+- GPT-5.6 Sol
 
 Prompt / Task:
 
@@ -413,3 +413,100 @@ Result:
 
 - Refactor commit: ce7b5c2.
 - Evidence commit: f818295.
+
+---
+## Week 4 - Extensibility and Final Integration
+
+### Entry 1 - Mai Trần Thùy Trang
+
+Date: 25/10/2026
+
+Tool / Model:
+
+- ChatGPT
+- GPT-5.6 Sol
+
+Prompt / Task:
+
+- Review the Week 4 Assignment extension and plan integration tests for Progress, Enrollment, and persistence.
+
+AI Output Summary:
+
+- Reviewed the existing `AssignmentLesson` and `AssignmentEvidence` APIs.
+- Suggested integration scenarios for prerequisite locking, assignment completion, progress calculation, certificate eligibility, and persistence.
+- Proposed tests demonstrating Open/Closed Principle without modifying existing production classes.
+
+Verification and Modification:
+
+- Trang checked the actual constructors and completion rules before implementing tests.
+- The test plan was limited to Trang's integration responsibilities to avoid duplicating Kha's Assignment validation and extensibility tests.
+- Trang selected two integration test classes, keeping `Progress`, `Enrollment`, and `EnrollmentFileStore` unchanged.
+
+---
+
+### Entry 2 - Mai Trần Thùy Trang
+
+Date: 25/10/2026
+
+Tool / Model:
+
+- ChatGPT
+- GPT-5.6 Sol
+
+Prompt / Task:
+
+- Implement and verify Assignment integration tests for Progress and Enrollment.
+
+AI Output Summary:
+
+- Helped implement `AssignmentProgressIntegrationTest.java` with three JUnit tests.
+- Covered prerequisite locking, unsuccessful and successful Assignment completion, progress percentage, and certificate eligibility.
+- Used `Lesson` and `CompletionEvidence` references to verify polymorphic behavior.
+
+Verification and Modification:
+
+- Trang reviewed the assertions and checked that the tests used the actual Assignment API.
+- Verified that submitting 499 words did not complete the Assignment, while submitting 500 words completed it and unlocked Quiz.
+- Confirmed progress transitions of 0%, 25%, 50%, 75%, and 100%.
+- Ran the targeted tests and full Maven suite without modifying production code.
+
+Result:
+
+- Assignment Progress integration: 3 tests, 0 failures, 0 errors.
+- BUILD SUCCESS.
+
+---
+
+### Entry 3 - Mai Trần Thùy Trang
+
+Date: 25/10/2026
+
+Tool / Model:
+
+- ChatGPT
+- GPT-5.6 Sol
+
+Prompt / Task:
+
+- Implement Assignment persistence integration tests, verify the full Maven suite, and review Week 4 evidence.
+
+AI Output Summary:
+
+- Helped implement `AssignmentEnrollmentFileStoreIntegrationTest.java` with three JUnit tests using `@TempDir`.
+- Suggested save/load scenarios for incomplete, completed, and fully completed Assignments.
+- Helped review the integration tests, Git changes, and evidence files.
+
+Verification and Modification:
+
+- Trang verified restoration using new Student, Course, Lesson, Enrollment, and Progress objects.
+- Confirmed that Assignment completion and prerequisite states were restored correctly.
+- Persistence tests initially encountered `AccessDeniedException` in the sandbox; Trang reran them outside the restricted environment, where they passed.
+- Trang reviewed the Git changes and confirmed that no production classes or existing tests were modified.
+- Saved two JUnit screenshots and the full Maven test output as evidence.
+
+Result:
+
+- Assignment Persistence integration: 3 tests, 0 failures, 0 errors.
+- Total new Week 4 integration tests: 6/6 passed.
+- Full Maven suite: 102 tests, 0 failures, 0 errors, 0 skipped.
+- BUILD SUCCESS.
