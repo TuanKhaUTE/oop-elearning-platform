@@ -510,3 +510,76 @@ Result:
 - Total new Week 4 integration tests: 6/6 passed.
 - Full Maven suite: 102 tests, 0 failures, 0 errors, 0 skipped.
 - BUILD SUCCESS.
+
+---
+
+### Entry 4 - Trần Tuấn Kha
+
+Date: 22/10/2026
+
+Tool / Model:
+
+- ChatGPT
+- GPT-5.6 Sol (model name displayed for this ChatGPT session)
+
+Prompt / Task:
+
+- Review the Week 4 rubric and supervisor feedback.
+- Design one new Lesson variant that proves Open/Closed Principle without editing existing core classes.
+- Include a dedicated CompletionEvidence subtype and invalid-input tests specific to the new variant.
+
+AI Output Summary:
+
+- Suggested `AssignmentLesson` as a new `Lesson` subtype and `AssignmentEvidence` as its dedicated evidence type.
+- Suggested a minimum-word-count completion rule, invalid configuration/evidence tests, wrong-evidence behavior, and a polymorphic test through the `Lesson` abstraction.
+- Suggested using `git diff --name-status main...HEAD` as direct Open/Closed evidence.
+
+Verification and Modification:
+
+- Kha inspected the actual `Lesson`, `CompletionEvidence`, `Progress`, and persistence APIs before implementing the extension.
+- The implementation was limited to three new source/test files; no existing production class was edited.
+- Kha ran the full Maven suite and confirmed 96 tests, 0 failures, 0 errors, BUILD SUCCESS before merge.
+- The Git diff was checked and contained only `A` (added) entries for the Assignment extension files, with no `M` entries for existing classes.
+
+Result:
+
+- Feature commit: `3a64498`.
+- PR #10 merged normally.
+- Merge commit: `a6dcace`.
+
+---
+
+### Entry 5 - Trần Tuấn Kha
+
+Date: 26/10/2026
+
+Tool / Model:
+
+- ChatGPT
+- GPT-5.6 Sol (model name displayed for this ChatGPT session)
+
+Prompt / Task:
+
+- Review Trang's Week 4 integration branch and final test evidence.
+- Verify that Assignment integrates with Progress and persistence without production-code changes.
+- Finalize Week 4 UML, README/run steps, defense Q&A, reflections, AI log, report, and portal evidence according to the rubric.
+
+AI Output Summary:
+
+- Reviewed Trang's 6 Assignment integration tests and 102-test Maven evidence.
+- Identified that the branch accidentally rewrote historical model names in prior AI-log entries and recommended preserving the already-approved Week 1-3 history while appending only Week 4 entries.
+- Proposed a final UML matching the 17 production classes, a final README structure, 10 defense questions/answers, individual reflections, and direct portal content.
+
+Verification and Modification:
+
+- Kha reviewed the two integration test classes and the full Maven log before merge.
+- Only the AI-log history issue was corrected; Trang's production/test implementation was not rewritten.
+- PR #11 was merged normally after review.
+- Kha pulled final `main` and independently reran `mvn clean test`; all 102 tests passed.
+- Final documentation was prepared from the actual merged source, commit history, and test evidence rather than from AI output alone.
+
+Result:
+
+- PR #11 merge commit: `1ff7840`.
+- Final verified suite on `main`: 102 tests, 0 failures, 0 errors, 0 skipped, BUILD SUCCESS.
+

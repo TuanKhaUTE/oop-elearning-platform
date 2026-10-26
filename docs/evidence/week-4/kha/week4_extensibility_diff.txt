@@ -1,0 +1,29 @@
+Week 4 Open/Closed Extensibility Diff - Trần Tuấn Kha
+
+Baseline main before Kha Week 4: 8e0d120
+Feature branch: feature/week4-assignment-lesson-kha
+Feature commit: 3a64498 - feat: add assignment lesson extension
+
+Command used:
+git diff --name-status main...HEAD
+
+Output before adding test-output evidence:
+A       src/main/java/elearning/lesson/AssignmentEvidence.java
+A       src/main/java/elearning/lesson/AssignmentLesson.java
+A       src/test/java/elearning/lesson/AssignmentLessonExtensibilityTest.java
+
+Interpretation:
+- A = added file.
+- There was no M (modified) entry for Lesson.java, Course.java, Progress.java,
+  Enrollment.java, EnrollmentFileStore.java, or any existing Lesson subtype.
+- The new Assignment variant was therefore introduced by extension rather than by
+  modifying existing core production classes.
+
+Kha Maven evidence after adding the extension:
+Tests run: 96, Failures: 0, Errors: 0, Skipped: 0 - BUILD SUCCESS.
+
+PR #10:
+https://github.com/TuanKhaUTE/oop-elearning-platform/pull/10
+
+Merge commit:
+a6dcace2dafa96e572ae7b034c40f2ec3bce0ed7

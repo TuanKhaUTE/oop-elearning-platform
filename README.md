@@ -1,112 +1,158 @@
 # E-Learning Platform
 
-Final project for the Object-Oriented Programming course.
+Final project for the **Object-Oriented Programming** course.
 
 ## Team
 
-Trần Tuấn Kha - 23110028  
-Mai Trần Thùy Trang - 23110065
+- Trần Tuấn Kha - 23110028
+- Mai Trần Thùy Trang - 23110065
 
-Lecturer: Huỳnh Xuân Phụng
+Lecturer: **Huỳnh Xuân Phụng**
 
 ## Project Overview
 
-This project is a Java-based E-Learning Platform that models courses, lesson enrollment, student progress, lesson prerequisites, and course completion.
+This project is a Java 17 E-Learning domain model for courses, enrollment, lesson completion, prerequisites, progress tracking, certificate eligibility, and file-based enrollment progress persistence.
 
-The main focus of the project is applying Object-Oriented Programming principles clearly through the system design and implementation.
+The project focuses on applying OOP principles through a small domain model with explicit responsibilities and automated tests.
 
-## Core Requirements
+## Core Domain
 
-The system supports courses containing ordered lessons.
+### Lesson hierarchy
 
-Lesson is the base type with three required subtypes:
+`Lesson` is the abstract base type. The final project contains four concrete variants:
 
-- VideoLesson
-- TextLesson
-- QuizLesson
+- `VideoLesson` - completed when watched percentage reaches the configured threshold.
+- `TextLesson` - completed when reading is confirmed.
+- `QuizLesson` - completed when score reaches the configured minimum.
+- `AssignmentLesson` - Week 4 extension; completed when submitted word count reaches the configured minimum.
 
-Students can enroll in courses and their progress is tracked for each enrollment.
+Each variant receives its own `CompletionEvidence` subtype:
 
-Each lesson type has its own completion rule through polymorphic `isComplete(...)` behavior.
+- `VideoEvidence`
+- `TextEvidence`
+- `QuizEvidence`
+- `AssignmentEvidence`
 
-Lessons may have prerequisites and can only be completed when their prerequisite requirements are satisfied.
+### Enrollment and progress
 
-A student becomes eligible for a course completion certificate when all lessons in the course are completed.
+A `Student` enrolls in a `Course` through `Enrollment`. Each Enrollment owns a `Progress` object.
+
+`Progress`:
+
+- checks that a lesson belongs to the Course;
+- enforces prerequisite locking;
+- delegates completion checks to `Lesson.isComplete(...)` polymorphically;
+- tracks completed lessons;
+- calculates overall percentage;
+- determines certificate eligibility;
+- restores validated historical completion from lesson IDs.
+
+### Persistence
+
+`EnrollmentFileStore` saves and loads a versioned UTF-8 snapshot containing:
+
+- Student ID;
+- Course ID;
+- completed lesson count;
+- completed lesson IDs.
+
+Loaded state is validated through `Enrollment.restore(...)` and `Progress.restore(...)`. Percentage and certificate eligibility are recalculated instead of stored directly.
 
 ## OOP Principles
 
-### Polymorphism
+### Abstraction and Polymorphism
 
-`Lesson.isComplete(...)` is implemented differently by `VideoLesson`, `TextLesson`, and `QuizLesson`.
+`Lesson.isComplete(CompletionEvidence)` defines the common completion contract. Each Lesson subtype overrides it with its own rule. `Progress` works through the `Lesson` abstraction and does not contain subtype-specific switch/if logic.
 
 ### Encapsulation
 
-`Progress` controls how lesson completion is recorded and prevents external code from directly modifying completion state.
+`Progress.completedLessons` is private. Completion state can only be changed through validated progress methods or the validated restoration path.
 
 ### Composition
 
-`Course` contains an ordered collection of `Lesson` objects.
+`Course` contains an ordered `List<Lesson>`. `Enrollment` contains its `Progress`.
+
+### Open/Closed Principle
+
+Week 4 adds `AssignmentLesson` and `AssignmentEvidence` without modifying existing core production classes. The Assignment variant works with the existing `Progress`, `Enrollment`, and `EnrollmentFileStore` APIs.
 
 ## Technology
 
-Java 17
-
-Initial version: Java console application
-
-Testing will be added for the required happy path, validation/error scenario, and polymorphism scenario.
+- Java 17 compilation target
+- Maven
+- JUnit 5
+- Java NIO file I/O
 
 ## Project Structure
 
-`course` - Course domain logic
+- `src/main/java/elearning/course` - Course domain
+- `src/main/java/elearning/lesson` - Lesson hierarchy, evidence types, validation helper
+- `src/main/java/elearning/user` - Student and Instructor
+- `src/main/java/elearning/enrollment` - Enrollment and restore entry point
+- `src/main/java/elearning/progress` - Progress, prerequisites, certificate rules, restoration
+- `src/main/java/elearning/persistence` - Enrollment file persistence
+- `src/test/java` - unit, edge-case, E2E, extensibility and persistence integration tests
+- `docs/diagrams` - UML/class diagrams
+- `docs/evidence` - weekly test/refactor/extensibility evidence
+- `docs/reports` - weekly/final reports and portal content
 
-`lesson` - Lesson hierarchy and polymorphic completion rules
+## Build and Test
 
-`user` - Student and Instructor models
+Requirements:
 
-`enrollment` - Student-Course enrollment
+- JDK 17 or newer installed
+- Maven available on `PATH`
 
-`progress` - Completion tracking, prerequisite checking, percentage calculation and certificate eligibility
+From the repository root:
 
-`app` - Application entry point
+```bash
+mvn clean test
+```
 
-`docs` - Diagrams, reports and test evidence
+Final verified suite:
 
-## Git Workflow
+```text
+Tests run: 102
+Failures: 0
+Errors: 0
+Skipped: 0
+BUILD SUCCESS
+```
 
-The `main` branch contains reviewed and working code.
+### Run the main E2E test
 
-Feature development is performed on separate branches.
+```bash
+mvn -Dtest=elearning.integration.ELearningEndToEndTest test
+```
 
-Kha:
+### Run the Week 4 Assignment integration tests
 
-`feature/course-lesson`
+```bash
+mvn -Dtest=elearning.integration.AssignmentProgressIntegrationTest test
+mvn -Dtest=elearning.persistence.AssignmentEnrollmentFileStoreIntegrationTest test
+```
 
-Trang:
+### Run the persistence demonstration
 
-`feature/enrollment-progress`
+```bash
+mvn -Dtest=elearning.persistence.EnrollmentPersistenceDemoTest test
+```
 
-Before starting work, pull the latest version of `main`.
+## Final Evidence
 
-Do not push unfinished feature work directly to `main`.
+- Final UML: `docs/diagrams/week4_final_class_diagram.md`
+- Week 4 Kha extensibility test output: `docs/evidence/week-4/kha/kha_week4_extensibility_test_output.txt`
+- Week 4 Open/Closed diff: `docs/evidence/week-4/kha/week4_extensibility_diff.txt`
+- Week 4 Trang full Maven output: `docs/evidence/week-4/trang/W4_Full_Maven_Test_Output.txt`
+- Final defense Q&A: `docs/evidence/week-4/defense_qna.md`
+- Individual reflections: `docs/evidence/week-4/reflections.md`
+- AI usage history: `AI_USAGE_LOG.md`
 
-Keep commits small and focused on one meaningful change.
+## Git Workflow and Ownership
 
-The other member should review changes before a feature is merged.
+Feature work was developed on separate branches and merged after review. Major Week 4 integration points:
 
-Both members must understand the complete system for the final oral defense.
+- Kha: `feature/week4-assignment-lesson-kha` - Assignment variant, dedicated evidence type, invalid-input/extensibility tests.
+- Trang: `feature/week4-extension-trang` - Progress and persistence integration tests plus final Maven evidence.
 
-## Current Status
-
-Week 1 completed:
-
-Requirements analyzed.
-
-Main system flow defined.
-
-Initial class responsibilities defined.
-
-Preliminary class diagram created.
-
-Test and evidence plan prepared.
-
-Week 2 will focus on implementing the shared domain foundation and core OOP logic.
+Both members are expected to understand the complete system for the final oral defense.
