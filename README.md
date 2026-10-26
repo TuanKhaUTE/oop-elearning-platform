@@ -140,7 +140,7 @@ mvn -Dtest=elearning.persistence.EnrollmentPersistenceDemoTest test
 
 ## Final Evidence
 
-- Final UML: `docs/diagrams/week4_final_class_diagram.png`
+- Final UML: `docs/diagrams/week4_final_class_diagram.md`
 - Week 4 Kha extensibility test output: `docs/evidence/week-4/kha/kha_week4_extensibility_test_output.txt`
 - Week 4 Open/Closed diff: `docs/evidence/week-4/kha/week4_extensibility_diff.txt`
 - Week 4 Trang full Maven output: `docs/evidence/week-4/trang/W4_Full_Maven_Test_Output.txt`
