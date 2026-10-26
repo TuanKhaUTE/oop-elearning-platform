@@ -131,7 +131,7 @@ Date: 11/10/2026
 Tool / Model:
 
 - ChatGPT
-- GPT-5.6 Sol
+- Codex
 
 Prompt / Task:
 
@@ -157,7 +157,7 @@ Date: 12/10/2026
 Tool / Model:
 
 - ChatGPT
-- GPT-5.6 Sol
+- Codex
 
 Prompt / Task:
 
@@ -224,7 +224,7 @@ Date: 20/10/2026
 Tool / Model:
 
 - ChatGPT
-- GPT-5.6 Sol
+- Codex
 
 Prompt / Task:
 
@@ -257,7 +257,7 @@ Date: 20/10/2026
 Tool / Model:
 
 - ChatGPT
-- GPT-5.6 Sol
+- Codex
 
 Prompt / Task:
 
@@ -290,7 +290,7 @@ Date: 20/10/2026
 Tool / Model:
 
 - ChatGPT
-- GPT-5.6 Sol
+- Codex
 
 Prompt / Task:
 
@@ -324,7 +324,7 @@ Date: 20/10/2026
 Tool / Model:
 
 - ChatGPT
-- GPT-5.6 Sol
+- Codex
 
 Prompt / Task:
 
