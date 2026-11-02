@@ -1,0 +1,142 @@
+TUẦN 4 – E-LEARNING PLATFORM (COURSES, ENROLLMENT, PROGRESS TRACKING)
+
+THÀNH VIÊN
+- Trần Tuấn Kha – 23110028
+- Mai Trần Thùy Trang – 23110065
+
+Repository:
+https://github.com/TuanKhaUTE/oop-elearning-platform
+
+1. MỤC TIÊU VÀ TRẠNG THÁI WEEK 4
+
+Week 4 tập trung vào extension/finalization theo rubric:
+- thêm một Lesson variant mới mà KHÔNG sửa existing core classes;
+- có CompletionEvidence subtype riêng và invalid-input test cho variant mới theo gợi ý của GVHD;
+- chứng minh variant mới tích hợp với Progress, prerequisite, certificate và persistence/restore;
+- final UML matching code;
+- final README/run steps;
+- complete AI Usage Log;
+- 10 defense Q&A + answers;
+- individual reflection của từng thành viên;
+- final Maven test evidence.
+
+Trạng thái cuối:
+- Code Week 4 của Kha đã merge qua PR #10.
+- Integration tests Week 4 của Trang đã merge qua PR #11.
+- Final main: 102 tests, 0 failures, 0 errors, 0 skipped – BUILD SUCCESS.
+- Kha đã pull final main và chạy lại mvn clean test, 102/102 tests pass.
+
+2. PHÂN CÔNG THÀNH VIÊN
+
+TRẦN TUẤN KHA – 23110028
+- Implement AssignmentLesson.
+- Implement AssignmentEvidence riêng cho Assignment.
+- Viết AssignmentLessonExtensibilityTest gồm polymorphism + invalid-input tests.
+- Chứng minh Open/Closed bằng git diff không có existing class bị modified.
+- Review integration branch của Trang trước merge.
+- Cập nhật final UML và README.
+- Chuẩn bị 5 defense Q&A + individual reflection.
+- Review/finalize AI log và Week 4 documentation.
+
+MAI TRẦN THÙY TRANG – 23110065
+- Viết AssignmentProgressIntegrationTest (3 tests).
+- Viết AssignmentEnrollmentFileStoreIntegrationTest (3 tests).
+- Kiểm tra Assignment với prerequisite, Progress, certificate, save/load và restore bằng objects mới.
+- Chạy final Maven suite và lưu evidence.
+- Chuẩn bị 5 defense Q&A + individual reflection.
+
+3. KHA – EXTENSIBILITY DEMO / OPEN-CLOSED PRINCIPLE
+
+Kha thêm hai production classes mới:
+- AssignmentLesson extends Lesson.
+- AssignmentEvidence implements CompletionEvidence.
+
+Completion rule:
+Assignment hoàn thành khi submittedWordCount >= minimumWordCount.
+
+Validation đặc thù:
+- minimumWordCount <= 0 → IllegalArgumentException.
+- submittedWordCount < 0 → IllegalArgumentException.
+- wrong CompletionEvidence subtype → isComplete(...) trả false.
+
+Feature commit:
+https://github.com/TuanKhaUTE/oop-elearning-platform/commit/3a64498
+
+PR #10:
+https://github.com/TuanKhaUTE/oop-elearning-platform/pull/10
+
+Merge commit:
+https://github.com/TuanKhaUTE/oop-elearning-platform/commit/a6dcace2dafa96e572ae7b034c40f2ec3bce0ed7
+
+OPEN/CLOSED DIFF EVIDENCE
+
+Command:
+git diff --name-status main...HEAD
+
+Output trước khi thêm test-output evidence:
+A  src/main/java/elearning/lesson/AssignmentEvidence.java
+A  src/main/java/elearning/lesson/AssignmentLesson.java
+A  src/test/java/elearning/lesson/AssignmentLessonExtensibilityTest.java
+
+Không có dòng M cho Lesson.java, Course.java, Progress.java, Enrollment.java,
+EnrollmentFileStore.java hoặc VideoLesson/TextLesson/QuizLesson.
+
+Kha test evidence:
+https://github.com/TuanKhaUTE/oop-elearning-platform/blob/main/docs/evidence/week-4/kha/kha_week4_extensibility_test_output.txt
+
+Open/Closed diff evidence:
+https://github.com/TuanKhaUTE/oop-elearning-platform/blob/main/docs/evidence/week-4/kha/week4_extensibility_diff.txt
+
+4. TRANG – PROGRESS + PERSISTENCE INTEGRATION
+
+Trang không sửa production code; chỉ bổ sung 2 integration test classes.
+AssignmentProgressIntegrationTest: 3 tests.
+AssignmentEnrollmentFileStoreIntegrationTest: 3 tests.
+
+Final Maven result:
+Tests run: 102
+Failures: 0
+Errors: 0
+Skipped: 0
+BUILD SUCCESS
+
+Trang evidence:
+https://github.com/TuanKhaUTE/oop-elearning-platform/blob/main/docs/evidence/week-4/trang/W4_Full_Maven_Test_Output.txt
+
+5. FINAL UML + README
+
+Final UML:
+https://github.com/TuanKhaUTE/oop-elearning-platform/blob/main/docs/diagrams/week4_final_class_diagram.md
+
+Editable/source diagram:
+https://github.com/TuanKhaUTE/oop-elearning-platform/blob/main/docs/diagrams/week4_final_class_diagram.dot
+
+README final:
+https://github.com/TuanKhaUTE/oop-elearning-platform/blob/main/README.md
+
+6. FINAL DEFENSE Q&A + REFLECTION
+
+Q&A:
+https://github.com/TuanKhaUTE/oop-elearning-platform/blob/main/docs/evidence/week-4/defense_qna.md
+
+Reflections:
+https://github.com/TuanKhaUTE/oop-elearning-platform/blob/main/docs/evidence/week-4/reflections.md
+
+AI Usage Log:
+https://github.com/TuanKhaUTE/oop-elearning-platform/blob/main/AI_USAGE_LOG.md
+
+7. FINAL WEEK 4 REPORT
+
+https://github.com/TuanKhaUTE/oop-elearning-platform/blob/main/docs/reports/week-4/OOP_Week4_FinalReport_Elearning.md
+
+8. RUBRIC CHECK
+
+- Extensibility demo: ĐẠT
+- Dedicated AssignmentEvidence + invalid input: ĐẠT
+- Integration tests: ĐẠT
+- Final UML matching code: ĐẠT
+- Final report: ĐẠT
+- Complete AI log: ĐẠT
+- Defense Q&A 10 questions + answers: ĐẠT
+- Individual reflection: ĐẠT
+- Final tests: 102/102 pass, BUILD SUCCESS
