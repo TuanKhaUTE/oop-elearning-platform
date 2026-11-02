@@ -1,0 +1,60 @@
+digraph ELearningPlatform {
+  graph [rankdir=LR, splines=ortho, nodesep=0.45, ranksep=0.8, fontname="Arial"];
+  node [shape=record, fontname="Arial", fontsize=10];
+  edge [fontname="Arial", fontsize=9];
+
+  Course [label="{Course|- id: String\l- title: String\l- lessons: List<Lesson>\l|+ addLesson(Lesson)\l+ getLessons(): List<Lesson>\l}"];
+  Lesson [label="{Lesson <<abstract>>|- id: String\l- title: String\l- prerequisite: Lesson\l|+ getId(): String\l+ getTitle(): String\l+ getPrerequisite(): Lesson\l+ setPrerequisite(Lesson)\l+ isComplete(CompletionEvidence): boolean\l}"];
+  VideoLesson [label="{VideoLesson|- requiredWatchPercent: double\l|+ isComplete(CompletionEvidence): boolean\l}"];
+  TextLesson [label="{TextLesson| |+ isComplete(CompletionEvidence): boolean\l}"];
+  QuizLesson [label="{QuizLesson|- minimumScore: double\l|+ isComplete(CompletionEvidence): boolean\l}"];
+  AssignmentLesson [label="{AssignmentLesson|- minimumWordCount: int\l|+ isComplete(CompletionEvidence): boolean\l}"];
+
+  CompletionEvidence [label="{CompletionEvidence <<interface>>}"];
+  VideoEvidence [label="{VideoEvidence|- watchedPercent: double\l}"];
+  TextEvidence [label="{TextEvidence|- completedReading: boolean\l}"];
+  QuizEvidence [label="{QuizEvidence|- score: double\l}"];
+  AssignmentEvidence [label="{AssignmentEvidence|- submittedWordCount: int\l}"];
+
+  PercentageValidator [label="{PercentageValidator <<package-private>>| |+ requireValid(double, String): void\l}"];
+
+  Student [label="{Student|- studentId: String\l- name: String\l|+ enroll(Course): Enrollment\l}"];
+  Instructor [label="{Instructor|- id: String\l- name: String\l|+ createCourse(String, String): Course\l}"];
+  Enrollment [label="{Enrollment|- student: Student\l- course: Course\l- progress: Progress\l|+ restore(Student, Course, Collection<String>): Enrollment\l}"];
+  Progress [label="{Progress|- course: Course\l- completedLessons: Set<Lesson>\l|+ restore(Course, Collection<String>): Progress\l+ updateLessonProgress(Lesson, CompletionEvidence): boolean\l+ getOverallPercentage(): double\l+ isCertificateEligible(): boolean\l}"];
+  EnrollmentFileStore [label="{EnrollmentFileStore| |+ save(Path, Enrollment): void\l+ load(Path, Student, Course): Enrollment\l}"];
+
+  VideoLesson -> Lesson [arrowhead=empty];
+  TextLesson -> Lesson [arrowhead=empty];
+  QuizLesson -> Lesson [arrowhead=empty];
+  AssignmentLesson -> Lesson [arrowhead=empty];
+
+  VideoEvidence -> CompletionEvidence [arrowhead=empty, style=dashed];
+  TextEvidence -> CompletionEvidence [arrowhead=empty, style=dashed];
+  QuizEvidence -> CompletionEvidence [arrowhead=empty, style=dashed];
+  AssignmentEvidence -> CompletionEvidence [arrowhead=empty, style=dashed];
+
+  Course -> Lesson [label=" contains 0..*", arrowhead=diamond];
+  Lesson -> Lesson [label=" prerequisite 0..1"];
+  Student -> Enrollment [label=" enrolls"];
+  Instructor -> Course [label=" creates"];
+  Enrollment -> Student;
+  Enrollment -> Course;
+  Enrollment -> Progress [label=" owns", arrowhead=diamond];
+  Progress -> Course;
+  Progress -> Lesson [label=" tracks"];
+  Progress -> CompletionEvidence [style=dashed, label=" uses"];
+  EnrollmentFileStore -> Enrollment [style=dashed, label=" save/load"];
+  EnrollmentFileStore -> Student [style=dashed];
+  EnrollmentFileStore -> Course [style=dashed];
+
+  VideoLesson -> VideoEvidence [style=dashed];
+  TextLesson -> TextEvidence [style=dashed];
+  QuizLesson -> QuizEvidence [style=dashed];
+  AssignmentLesson -> AssignmentEvidence [style=dashed];
+
+  VideoLesson -> PercentageValidator [style=dashed];
+  QuizLesson -> PercentageValidator [style=dashed];
+  VideoEvidence -> PercentageValidator [style=dashed];
+  QuizEvidence -> PercentageValidator [style=dashed];
+}
